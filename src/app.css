@@ -1,0 +1,25 @@
+/* Fonts & Base */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap');
+@import "tailwindcss";
+@theme {
+    --font-sans: "font", "Noto Sans Thai";
+}
+body {
+  background-color: #f0f4f8;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+
+}
+:root {
+  --main: #ff00009c;
+
+}
+.bg-main
+{
+  background-color: var(--main);
+}
+.text-main
+{
+  color: var(--main);
+}
