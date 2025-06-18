@@ -7,14 +7,16 @@
   import PageGameOver from './components/PageGameOver.svelte';
   import PageMaxAttempts from './components/PageMaxAttempts.svelte';
 
-  onMount(() => {
-    svelteManager.getTheme();
-  });
+ onMount(() => {
+   svelteManager.currentState === GameState.MainMenu
+});
+
 </script>
 
 <main>
   {#if svelteManager.currentState === GameState.MainMenu}
     <PageStart />
+    console.log("Current State: Main Menu");
   {:else if svelteManager.currentState === GameState.Playing}
     <PageGameplay />
   {:else if svelteManager.currentState === GameState.GameOver}

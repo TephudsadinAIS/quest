@@ -23,3 +23,11 @@ body {
 {
   color: var(--main);
 }
+@keyframes pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.animate-pop {
+  animation: pop-in 0.4s ease-out;
+}

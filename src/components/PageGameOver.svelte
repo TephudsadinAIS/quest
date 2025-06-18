@@ -7,25 +7,24 @@
 
     async function getSumScore() {
         isLoading = true;
-        console.log("กำลังดึงข้อมูลสรุปคะแนน (จาก PageGameOver)...");
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const mockSummaryResponse = {
-            scoreSummary: [
-                { description: "ตอบถูก 2 ข้อ", points: 20, },
-                { description: "โบนัสชุดนี้", points: 10, },
-                { description: "ค่าแอคทีฟ", points: 10, },
-                { description: "ตอบคำถามครบ 1 ชุด", points: 5, },
-            ],
-            total: 45,
-        };
-        svelteManager.roundSummary = {
-            items: mockSummaryResponse.scoreSummary.map((item: any) => ({
-                label: item.description,
-                value: item.points,
-            })),
-            total: mockSummaryResponse.total,
-        };
-        isLoading = false;
+        try {
+            const res = await fetch(`https://masque-lab.adldigitalservice.com/services/quiz-game/score-summary`, {
+                headers: { 'x-user-id': svelteManager.userId }
+            });
+            const data = await res.json();
+            svelteManager.roundSummary = {
+                items: data.scoreSummary.map((item: any) => ({
+                    label: item.description,
+                    value: item.points
+                })),
+                total: data.total
+            };
+        } catch (err) {
+            console.error("โหลดคะแนนรวมล้มเหลว:", err);
+            svelteManager.roundSummary = { items: [], total: 0 };
+        } finally {
+            isLoading = false;
+        }
     }
 
     onMount(() => {
@@ -55,13 +54,13 @@
                 {#each svelteManager.roundSummary.items as item}
                     <div class="flex justify-between">
                         <span>{item.label}</span>
-                        <span class="font-bold text-blue-600">+{item.value}</span>
+                        <span class="font-bold text-main">+{item.value}</span>
                     </div>
                 {/each}
             </div>
             <hr class="w-full border-gray-200 my-2" />
             <div class="w-full text-center my-4">
-                <p class="text-3xl font-extrabold text-blue-600">
+                <p class="text-3xl font-extrabold text-main">
                     +{svelteManager.roundSummary.total} คะแนน
                 </p>
             </div>
